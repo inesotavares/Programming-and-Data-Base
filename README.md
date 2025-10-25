@@ -7,5 +7,5 @@ It covers all key aspects of a music streaming ecosystem — including users, so
 In order to run Python scripts, change server definitions (host, user, password) on the .py files in accordance to the SQL server.
 
 Logical order for database creation:
--Run SQL Create file on new server
--Run Python Fill file
+- Run SQL Create file on new server
+- Run Python Fill file
