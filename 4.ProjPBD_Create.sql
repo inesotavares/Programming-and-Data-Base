@@ -1,0 +1,134 @@
+DROP DATABASE IF EXISTS SPOTMUSIC;
+CREATE DATABASE SPOTMUSIC;
+USE SPOTMUSIC;
+
+CREATE TABLE USER(
+UserID INT NOT NULL,
+Name VARCHAR(30) NOT NULL,
+Email VARCHAR(30) UNIQUE NOT NULL,
+RegistrationDate DATE NOT NULL,
+PlanType ENUM('Free', 'Family', 'Student', 'Premium'),
+PRIMARY KEY (UserID)
+);
+INSERT INTO USER(UserID, Name, Email, RegistrationDate, PlanType)
+VALUES
+(2, 'Orlando Sá', 'os@mail.com' , '2021-07-03', 'Free'),
+(3, 'Jorge Jesus', 'jj@mail.com', '2002-07-02', 'Premium');
+
+CREATE TABLE SONG(
+SongID INT NOT NULL,
+Title VARCHAR(30) NOT NULL,
+Genre VARCHAR(20),
+Duration INT NOT NULL,
+UEPlays INT NOT NULL,
+UEDownloads INT NOT NULL,
+PRIMARY KEY (SongID)
+);
+INSERT INTO SONG(SongID, Title, Genre, Duration, UEPlays, UEDownloads)
+VALUES
+(124, 'The Sound Of Silence','Rock',282, 15646, 4348),
+(200, 'Safe And Sound','Pop',241,12756, 8623);
+
+CREATE TABLE ARTIST(
+SongID INT NOT NULL,
+Artist VARCHAR(30) NOT NULL,
+PRIMARY KEY (SongID, Artist),
+FOREIGN KEY (SongID) REFERENCES SONG(SongID)
+);
+INSERT INTO ARTIST(SongID, Artist)
+VALUES
+(124, 'Disturbed'),
+(200, 'Taylor Swift');
+
+CREATE TABLE PLAYLIST(
+PlaylistID INT NOT NULL,
+Title VARCHAR(30) NOT NULL,
+Description VARCHAR(100),
+PrivacySetting ENUM('Public', 'Private') NOT NULL,
+CreatorID INT NOT NULL,
+CreationDate DATE NOT NULL,
+PRIMARY KEY (PlaylistID),
+FOREIGN KEY (CreatorID) REFERENCES USER(UserID)
+);
+INSERT INTO PLAYLIST(PlaylistID,Title,Description,PrivacySetting, CreatorID, CreationDate)
+VALUES
+(2, 'MyList', 'My Favourite Songs','Private', 2, '2022-07-07'),
+(10, 'Love Songs', 'Songs For My Wedding','Public', 3, '2022-07-06');
+
+CREATE TABLE DEVICE(
+DeviceID INT NOT NULL,
+Type ENUM('Smartphone', 'Computer', 'Tablet') NOT NULL,
+Model VARCHAR(20) NOT NULL,
+SCTotal INT NOT NULL,
+SCFREE INT NOT NULL,
+PRIMARY KEY (DeviceID)
+);
+INSERT INTO DEVICE(DeviceID, Type, Model, SCTotal, SCFree)
+VALUES
+(15, 'Tablet', 'Ipad 9', 256, 200),
+(16, 'Computer', 'Asus Vivobook Pro', 256, 100);
+
+CREATE TABLE SUBSCRIBE(
+UserID INT NOT NULL,
+PlaylistID INT NOT NULL,
+SubsDate DATE NOT NULL,
+PRIMARY KEY (UserID, PlaylistID),
+FOREIGN KEY (UserID) REFERENCES USER(UserID),
+FOREIGN KEY (PlaylistID) REFERENCES PLAYLIST(PlaylistID)
+);
+INSERT INTO SUBSCRIBE(UserID, PlaylistID, SubsDate)
+VALUES
+(2, 2, '2022-07-07'),
+(3, 10, '2022-07-06');
+
+CREATE TABLE LIKES(
+UserID INT NOT NULL,
+SongID INT NOT NULL,
+LikeDate DATE NOT NULL,
+PRIMARY KEY (UserID, SongID),
+FOREIGN KEY (UserID) REFERENCES USER(UserID),
+FOREIGN KEY (SongID) REFERENCES SONG(SongID)
+);
+INSERT INTO LIKES(UserID, SongID, LikeDate)
+VALUES
+(2, 124, '2022-07-07'),
+(3, 200, '2022-07-06');
+
+
+CREATE TABLE BELONGS(
+SongID INT NOT NULL,
+PlaylistID INT NOT NULL,
+PRIMARY KEY (SongID, PlaylistID),
+FOREIGN KEY (SongID) REFERENCES SONG(SongID),
+FOREIGN KEY (PlaylistID) REFERENCES PLAYLIST(PlaylistID)
+);
+INSERT INTO BELONGS(SongID, PlaylistID)
+VALUES
+(124, 2),
+(200, 10);
+
+CREATE TABLE PLAYED(
+PlaylistID INT NOT NULL,
+DeviceID INT NOT NULL,
+PlayDate DATE NOT NULL,
+PRIMARY KEY (PlaylistID, DeviceID, PlayDate),
+FOREIGN KEY (PlaylistID) REFERENCES PLAYLIST(PlaylistID),
+FOREIGN KEY (DeviceID) REFERENCES DEVICE(DeviceID)
+);
+INSERT INTO PLAYED(PlaylistID, DeviceID, PlayDate)
+VALUES
+(2, 15, '2022-07-07'),
+(10, 16, '2022-07-06');
+
+CREATE TABLE CONNECTED(
+UserID INT NOT NULL,
+DeviceID INT NOT NULL,
+ConnectDate DATE NOT NULL,
+PRIMARY KEY (UserID, DeviceID, ConnectDate),
+FOREIGN KEY (UserID) REFERENCES USER(UserID),
+FOREIGN KEY (DeviceID) REFERENCES DEVICE(DeviceID)
+);
+INSERT INTO CONNECTED(UserID, DeviceID, ConnectDate)
+VALUES
+(2, 15, '2022-07-07'),
+(3, 16, '2022-07-06');
