@@ -1,0 +1,15 @@
+﻿DeviceID,Type,Model,SCTotal,SCFree
+1,Smartphone,Iphone 11,64,54
+2,Smartphone,Xiaomi Redmi 12,128,78
+3,Smartphone,Iphone X,256,180
+4,Computer,Macbook Air M2,256,200
+5,Tablet,Ipad 8,32,20
+6,Smartphone,Iphone 7,64,60
+7,Tablet,Ipad 10,128,80
+8,Smartphone,Huawei P30 Lite,128,120
+9,Computer,Asus Vivobook,256,145
+10,Smartphone,Samsung Galaxy S3,128,76
+11,Smartphone,Xiaomi Redmi Note 11,64,56
+12,Smartphone,Iphone 13 Pro,256,176
+13,Smartphone,Iphone 15 Pro,256,203
+14,Computer,Macbook Pro M1,256,136
